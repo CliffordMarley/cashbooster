@@ -13,7 +13,7 @@
         <div class="panel panel-visible" id="spy6">
             <div class="panel-heading text-right">
                 <div class="panel-title text-right hidden-xs">
-                   <a href="/admins/create" class="d-inline float-right text-right btn text-white btn-primary btn-sm">Create New <i class="fa fa-plus-circle"></i></a>
+                   <a href="/admins/create" class="d-inline float-right text-right btn text-white btn-primary btn-sm">Create New Account<i class="fa fa-plus-circle"></i></a>
                 </div>
             </div>
             <div class="panel-body pn mt20">
