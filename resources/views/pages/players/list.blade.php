@@ -1,0 +1,57 @@
+
+@extends('layouts.main2')
+
+@section('content')
+
+<div class="row">
+    <div class="col-12">
+        {{-- DataTable of all players  firstname, lastname, alias, msisdn, email, status --}}
+        <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Registered Players</h4>
+              <p class="card-description">
+                All registered players active or inactive
+              </p>
+              <div class="table-responsive">
+                <table id="datatable2" class="table" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="va-m">First Name</th>
+                            <th class="va-m">Last Name</th>
+                            <th class="va-m">Alias</th>
+                            <th>MSISDN</th>
+                            <th class="va-m">Email</th>
+                            <th class="va-m">Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($players as $player)
+                            <tr>
+                                <td>{{$player->firstname}}</td>
+                                <td>{{$player->lastname}}</td>
+                                <td>{{$player->alias}}</td>
+                                <td>{{$player->msisdn}}</td>
+                                <td>{{$player->email}}</td>
+                                <td>{{$player->status}}</td>
+                                <td>
+                                    <a href="" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+              </div>
+            </div>
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#players-table').DataTable({
+            pageLength:5
+        });
+    });
+</script>
+@endsection
