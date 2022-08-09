@@ -191,7 +191,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="row flex-grow">
+                      {{-- <div class="row flex-grow">
                         <div class="col-12 grid-margin stretch-card">
                           <div class="card card-rounded">
                             <div class="card-body">
@@ -392,8 +392,8 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="row flex-grow">
+                      </div> --}}
+                      {{-- <div class="row flex-grow">
                         <div class="col-md-6 col-lg-6 grid-margin stretch-card">
                           <div class="card card-rounded">
                             <div class="card-body card-rounded">
@@ -522,7 +522,7 @@
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> --}}
                     </div>
                     <div class="col-lg-4 d-flex flex-column">
                       <div class="row flex-grow">
