@@ -31,4 +31,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('games/play', [GamesController::class,'play']);
     Route::get('games/results',[GamesController::class, 'results']);
     Route::resource('games', GamesController::class);
+    Route::resources('/transactions/deposit', [TransactionsController::class,'deposit']);
 });
