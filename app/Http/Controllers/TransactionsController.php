@@ -24,7 +24,7 @@ class TransactionsController extends Controller
 
             $paymentRequest = PaymentController::initiatePayment($msisdn, $amount, $wallet);
             if ($paymentRequest != 'error') {
-                $url = "http://207.154.221.168:9000/api/makeDepositRequest";
+                $url = "https://cashbooster.malipo.dev/api/makeDepositRequest";
                 $response = Http::acceptJson()->timeout(30)->post($url, $paymentRequest);
 
                 return response()->json([
@@ -49,5 +49,12 @@ class TransactionsController extends Controller
     }
     public function withdrawal(Request $request)
     {
+    }
+
+    public function handleCallback(Request $request)
+    {
+        try {
+        } catch (\Exception $err) {
+        }
     }
 }
