@@ -25,13 +25,9 @@ class TransactionsController extends Controller
             $paymentRequest = PaymentController::initiatePayment($msisdn, $amount, $wallet);
             if ($paymentRequest != 'error') {
                 $url = "http://207.154.221.168/api/makeDepositRequest";
-                Http::acceptJson()->timeout(30)->post($url, $paymentRequest);
+                $response = Http::acceptJson()->timeout(30)->post($url, $paymentRequest);
 
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Transaction is processing...',
-                    'data'=>['requestPayload'=>$paymentRequest]
-                ]);
+                return response()->json($response);
 
             } else {
                 return response()->json([
