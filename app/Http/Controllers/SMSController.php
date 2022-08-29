@@ -15,6 +15,7 @@ class SMSController extends Controller
 
         $result   = $sms->send([
             'to'      => $msisdn,
+            'from'   => 'CashBooster',
             'message' => $message
         ]);
     }
