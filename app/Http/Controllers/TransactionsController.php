@@ -54,7 +54,24 @@ class TransactionsController extends Controller
     public function handleCallback(Request $request)
     {
         try {
+            $transaction = new Transaction();
+            $transaction->txn_reference = $request->merchantReference;
+            $transaction->msisdn = $request->customerPhone;
+            $transaction->currency = $request->currency;
+            $transaction->amount = $request->amount;
+            $transaction->status = strtoupper($request->status);
+            $transaction->description = $request->description;
+
+            $transaction->save();
+
+            return response()->json([
+                'status'=>'success'
+            ]);
         } catch (\Exception $err) {
+            return response()->json([
+                'status'=>'error',
+                'message'=>$err->getMessage()
+            ]);
         }
     }
 }

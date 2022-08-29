@@ -32,5 +32,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('games/results',[GamesController::class, 'results']);
     Route::resource('games', GamesController::class);
     Route::post('/transactions/deposit', [TransactionsController::class, 'deposit']);
-    Route::post('/transactions/callback', [TransactionsController::class, 'handleCallback']);
+    Route::put('/transactions/callback', [TransactionsController::class, 'handleCallback']);
 });
