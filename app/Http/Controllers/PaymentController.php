@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Ramsey\Uuid\Uuid;
 
 
@@ -13,7 +12,6 @@ class PaymentController extends Controller
    public static function initiatePayment($customerPhone,$amount,$walletProvider){
         try{
             $merchantRef =  Uuid::uuid4()->toString();
-            $url = "https://mobipay.cash/prod/merchantController/requestMobilePayment";
             $customerPhone = "0".substr($customerPhone, 3, (strlen($customerPhone) - 1));
             $txnPayload = [
                 "merchantId"=>3514,
@@ -26,8 +24,7 @@ class PaymentController extends Controller
 
             // print_r($txnPayload);
 
-            $response = Http::acceptJson()->timeout(30)->post($url,$txnPayload);
-            return $response;
+            return $txnPayload;
         }catch(\Exception $err){
             return "error";
         }
