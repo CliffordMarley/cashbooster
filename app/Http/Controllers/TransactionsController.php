@@ -21,11 +21,19 @@ class TransactionsController extends Controller
             $wallet = $request->wallet;
 
             $paymentRequest = PaymentController::initiatePayment($msisdn, $amount, $wallet);
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Transaction is processing...',
-                'data' => $paymentRequest
-            ]);
+            if ($paymentRequest != 'error') {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Transaction is processing...',
+                    'data' => $paymentRequest
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $paymentRequest
+                ]);
+            }
+
         } catch (\Exception $err) {
             return response()->json([
                 'status' => 'error',
