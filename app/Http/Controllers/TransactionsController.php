@@ -27,7 +27,11 @@ class TransactionsController extends Controller
                 $url = "http://207.154.221.168/api/makeDepositRequest";
                 $response = Http::acceptJson()->timeout(30)->post($url, $paymentRequest);
 
-                return response()->json($response);
+                return response()->json([
+                    'status'=>"success",
+                    'message'=>"Transaction is processing...",
+                    'data'=>$response
+                ]);
 
             } else {
                 return response()->json([
