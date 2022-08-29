@@ -19,9 +19,8 @@ class TransactionsController extends Controller
             $msisdn = $request->msisdn;
             $amount = $request->amount;
             $wallet = $request->wallet;
-            $reference = $request->merchantRef;
 
-            $paymentRequest = PaymentController::initiatePayment($msisdn, $amount, $wallet, $reference);
+            $paymentRequest = PaymentController::initiatePayment($msisdn, $amount, $wallet);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Transaction is processing...',

@@ -6,7 +6,6 @@ use App\Models\Game;
 use App\Models\Group;
 use App\Models\Player;
 use Illuminate\Http\Request;
-use Ramsey\Uuid\Uuid;
 
 
 class GamesController extends Controller
@@ -40,8 +39,8 @@ class GamesController extends Controller
             ) {
 
                 //Request payment information
-                $merchantRef =  Uuid::uuid4()->toString();
-                $pay = PaymentController::initiatePayment($request->msisdn, $request->stake, $request->wallet, $merchantRef);
+
+                $pay = PaymentController::initiatePayment($request->msisdn, $request->stake, $request->wallet);
                 if (true) {
                     //Check in groups if there is a entry where participants is
                     //less than 5 and outcome = give outcome and stake = given stake
@@ -124,7 +123,7 @@ class GamesController extends Controller
 
     }
 
-    
+
 
     public function destroy(Game $game)
     {
