@@ -24,14 +24,8 @@ class TransactionsController extends Controller
 
             $paymentRequest = PaymentController::initiatePayment($msisdn, $amount, $wallet);
             if ($paymentRequest != 'error') {
-                $url = "https://mobipay.cash/prod/merchantController/requestMobilePayment";
-                Http::async()->acceptJson()->timeout(30)
-                ->post($url, $paymentRequest)->then(function($response){
-                    if ($response != 'error') {
-                        SMSController::sendSMS($msisdn, $response);
-                        //Perform some kind of database loggin of the successful transaction
-                    }
-                });
+                $url = "http://207.154.221.168/api/makeDepositRequest";
+                Http::acceptJson()->timeout(30)->post($url, $paymentRequest);
 
                 return response()->json([
                     'status' => 'success',
