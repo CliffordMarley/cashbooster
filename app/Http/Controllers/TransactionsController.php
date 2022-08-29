@@ -63,7 +63,7 @@ class TransactionsController extends Controller
             $transaction->description = $request->description;
 
             $transaction->save();
-
+            self::formulateTransactionNotification($request->msisdn, $request->amount, $request->status);
             return response()->json([
                 'status'=>'success'
             ]);
@@ -72,6 +72,24 @@ class TransactionsController extends Controller
                 'status'=>'error',
                 'message'=>$err->getMessage()
             ]);
+        }
+    }
+
+    public function formulateTransactionNotification($msisdn,$amount, $status){
+        try{
+
+            $message = "";
+            if($status == 'success'){
+                $message = "Txn Confirmed. Dear customer, you have deposited MK".number_format($amount);
+                $message .= " to you CashbBooster account.";
+            }else{
+                $message = "Sorry, you deposit of MK".number_format($amount);
+                $message .= " to you CashBooster account was not successful. Try again.";
+            }
+            SMSController::sendSMS($msisdn, $message);
+            return true;
+        }catch(\Exception $err){
+            return false;
         }
     }
 }
