@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SMSController;
 
 class TransactionsController extends Controller
 {
@@ -24,16 +25,18 @@ class TransactionsController extends Controller
             $paymentRequest = PaymentController::initiatePayment($msisdn, $amount, $wallet);
             if ($paymentRequest != 'error') {
                 $url = "https://mobipay.cash/prod/merchantController/requestMobilePayment";
-                $response = Http::async()->acceptJson()->timeout(30)
+                Http::async()->acceptJson()->timeout(30)
                 ->post($url, $paymentRequest)->then(function($response){
                     if ($response != 'error') {
+                        SMSController::sendSMS($msisdn, $response);
                         //Perform some kind of database loggin of the successful transaction
                     }
                 });
 
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Transaction is processing...'
+                    'message' => 'Transaction is processing...',
+                    'data'=>['requestPayload'=>$paymentRequest]
                 ]);
 
             } else {
