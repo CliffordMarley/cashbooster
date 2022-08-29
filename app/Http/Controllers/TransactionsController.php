@@ -24,7 +24,7 @@ class TransactionsController extends Controller
 
             $paymentRequest = PaymentController::initiatePayment($msisdn, $amount, $wallet);
             if ($paymentRequest != 'error') {
-                $url = "https://cashbooster.malipo.dev/api/makeDepositRequest";
+                $url = "https://coral-app-zw6g4.ondigitalocean.app/api/makeDepositRequest";
                 $response = Http::acceptJson()->timeout(30)->post($url, $paymentRequest);
 
                 return response()->json([
