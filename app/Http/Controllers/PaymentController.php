@@ -12,7 +12,6 @@ class PaymentController extends Controller
    public static function initiatePayment($customerPhone,$amount,$walletProvider){
         try{
             $merchantRef =  Uuid::uuid4()->toString();
-            $customerPhone = "0".substr($customerPhone, 3, (strlen($customerPhone) - 1));
             $txnPayload = [
                 "merchantId"=>3514,
                 "paymentOptionId"=>$walletProvider,

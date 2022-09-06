@@ -33,4 +33,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::resource('games', GamesController::class);
     Route::post('/transactions/deposit', [TransactionsController::class, 'deposit']);
     Route::put('/transactions/callback', [TransactionsController::class, 'handleCallback']);
+    Route::put('/users/reset_pin', [Api\UserController::class, 'resetPin']);
 });
