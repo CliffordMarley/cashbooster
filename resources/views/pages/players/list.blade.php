@@ -61,13 +61,13 @@
         if(prompt){
             try{
                 const options = {
-                    method:"PUT",
+                    method:"POST",
                     headers:{
                         'Content-Type':'application/json'
                     },
                     body:JSON.stringify({'user_id':user_id})
                 }
-                let response = await fetch(BASE_URL+"/api/v1/user/reset_pin", options)
+                let response = await fetch(BASE_URL+"/api/v1/users/reset_pin", options)
                 response = await response.json()
                 if(response.status == 'success'){
                     alert(`Success Alert: ${response.message}`)

@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Create a Route Group
 Route::group(['prefix' => 'v1'], function () {
     // Create a Users Route resource
+    Route::post('/users/reset_pin', [UserController::class, 'resetPin']);
+
     Route::post('users/change_pin',[UserController::class,'changePin']);
     Route::post('users/close',[UserController::class,'close']);
     Route::post('users/balance', [UserController::class,'getBalance']);
@@ -33,5 +35,4 @@ Route::group(['prefix' => 'v1'], function () {
     Route::resource('games', GamesController::class);
     Route::post('/transactions/deposit', [TransactionsController::class, 'deposit']);
     Route::put('/transactions/callback', [TransactionsController::class, 'handleCallback']);
-    Route::put('/users/reset_pin', [Api\UserController::class, 'resetPin']);
 });
