@@ -26,9 +26,9 @@ class SMSController extends Controller
             $sms->contents = $message;
             $sms->save();*/
 
-            return true;
+            return $result;
         } catch (\Exception $e) {
-            return false;
+            return $e;
         }
     }
 }

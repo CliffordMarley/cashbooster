@@ -44,8 +44,9 @@ class UserController extends Controller
 
     public function resetPin(Request $request)
     {
+
         try {
-            $user = User::first('id', $request->user_id);
+            $user = User::where('id', '=', $request->user_id)->first();
             $new_pin = rand(1001, 9999);
             $user->password = Hash::make($new_pin);
             $user->save();
@@ -53,10 +54,11 @@ class UserController extends Controller
             $message = "Dear customer, your access PIN has been reset to ";
             $message .= $new_pin . ". Please change it to your preference.";
 
-            SMSController::sendSMS($user->msisdn, $message);
+            $response = SMSController::sendSMS($user->msisdn, $message);
             return response()->json([
                 'status' => 'success',
-                'message' => 'Customer Pin has been reset successfully'
+                'message' => 'Customer Pin has been reset successfully',
+                'smsRes' => $response
             ]);
         } catch (\Exception $err) {
             return response()->json([
