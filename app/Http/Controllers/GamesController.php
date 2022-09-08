@@ -46,7 +46,7 @@ class GamesController extends Controller
                 if($balance < $request->stake){
                     return response()->json([
                         'status'=>'error',
-                        'message'=>"Sorry, the account does not have sufficient balance for the selected stake!"
+                        'message'=>"Sorry, the account does not have sufficient balance for the selected stake. Credit your CashBooster account and try again."
                     ]);
                 }
 
