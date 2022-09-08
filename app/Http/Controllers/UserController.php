@@ -218,11 +218,8 @@ class UserController extends Controller
         //Calculate Balance from sum of all amounts in Transaction with msisdn = $request->msisdn and user authenticated with $request->pin = $user->password
         $user = User::where('msisdn', $request->msisdn)->first();
         if(Hash::check($request->pin, $user->password)){
-            $transactions = Transaction::where('msisdn', $request->msisdn)->get();
-            $balance = 0;
-            foreach($transactions as $transaction){
-                $balance += $transaction->amount;
-            }
+            $balance = Transaction::where('msisdn', $request->msisdn)->sum('amount');
+
             return response()->json([
                 'data' => ['balance'=>$balance],
                 'status' => 'success',

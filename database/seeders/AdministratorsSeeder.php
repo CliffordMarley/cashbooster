@@ -1,21 +1,21 @@
 <?php
 
 namespace Database\Seeders;
-
+use App\Models\Administrator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class AdministratorsSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call(AdministratorSeeder::class);
-
-        // \App\Models\User::factory(10)->create();
+        Administrator::create([
+            
+        ]);
     }
 }

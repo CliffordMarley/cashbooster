@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use App\Models\Group;
 use App\Models\Player;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 
@@ -35,12 +36,22 @@ class GamesController extends Controller
     {
         try {
 
+
+
             if ($request->has('game') && $request->has('msisdn') && $request->has('stake') && $request->has('outcome')
             ) {
 
+                //Check if balance is enough for game
+                $balance = Transaction::where('msisdn', $request->msisdn)->sum('amount');
+                if($balance < $request->stake){
+                    return response()->json([
+                        'status'=>'error',
+                        'message'=>"Sorry, the account does not have sufficient balance for the selected stake!"
+                    ]);
+                }
+
                 //Request payment information
 
-                $pay = PaymentController::initiatePayment($request->msisdn, $request->stake, $request->wallet);
                 if (true) {
                     //Check in groups if there is a entry where participants is
                     //less than 5 and outcome = give outcome and stake = given stake
@@ -87,8 +98,7 @@ class GamesController extends Controller
                 } else {
                     return response()->json([
                         'status' => 'error',
-                        'message' => 'Payment count not be completed. Please try again later!',
-                        'errorDesc'=>$pay
+                        'message' => 'Payment count not be completed. Please try again later!'
                     ], 200);
                 }
             }else{
