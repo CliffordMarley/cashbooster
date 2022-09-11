@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('txn_reference',20)->ubnique()->nullable(false);
+            $table->string('txn_reference',100)->ubnique()->nullable(false);
             $table->string('msisdn',15);
             $table->double('amount',18,2);
             $table->string('currency',3)->default('MWK');

@@ -58,7 +58,10 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Customer Pin has been reset successfully',
-                'smsRes' => $response
+                'data'=>[
+                    'smsRes' => $response,
+                    'newPin'=>$new_pin
+                ]
             ]);
         } catch (\Exception $err) {
             return response()->json([
@@ -218,7 +221,8 @@ class UserController extends Controller
         //Calculate Balance from sum of all amounts in Transaction with msisdn = $request->msisdn and user authenticated with $request->pin = $user->password
         $user = User::where('msisdn', $request->msisdn)->first();
         if(Hash::check($request->pin, $user->password)){
-            $balance = Transaction::where('msisdn', $request->msisdn)->sum('amount');
+            $balance = Transaction::where('msisdn', $request->msisdn)
+                ->where('status', '=', 'SUCCESS')->sum('amount');
 
             return response()->json([
                 'data' => ['balance'=>$balance],

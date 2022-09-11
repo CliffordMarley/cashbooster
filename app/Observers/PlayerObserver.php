@@ -6,6 +6,7 @@ use App\Models\Player;
 use App\Models\User;
 use App\Models\Group;
 use App\Http\Controllers\SMSController;
+use App\Http\Controllers\TransactionsController;
 
 class PlayerObserver
 {
@@ -81,13 +82,21 @@ class PlayerObserver
                 if($player->result == 'WINNER'){
 
                     $totalLosses = ($group->number_of_participants - $group->outcome[0]) * $group->stake;
-                    $totalReturns = $group->stake + ($totalLosses/4);
+                    $totalReturns = $group->stake + ($totalLosses/5);
 
-                    $message = "Congratulations ".$user->firstname;
-                    $message .= "! You came out winner of this draw. Your total returns ";
-                    $message .= "are MWK".number_format($totalReturns);
-
+                    //Credit player winnings
+                    $creditPlayer = TransactionsController::creditPlayerWinnings($player->msisdn, $totalReturns);
+                    $message = null;
+                    if($creditPlayer == 'OK'){
+                        $message = "Congratulations " . $user->firstname;
+                        $message .= "! You came out winner of this draw. Your total returns ";
+                        $message .= "are MWK" . number_format($totalReturns);
+                    }else{
+                        $message = "Dear customer, you won the previous draw but our system was unable to ";
+                        $message .= "credit your account. Please call customer support to claim your funds.";
+                    }
                     SMSController::sendSMS($msisdn, $message);
+
                 }else if($player->result == 'LOOSER'){
                     $message = "Dear ".$user->firstname;
                     $message .= ", You were not successfull in this round or Raffle Draw. ";

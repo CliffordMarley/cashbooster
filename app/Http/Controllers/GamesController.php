@@ -35,14 +35,12 @@ class GamesController extends Controller
     public function play(Request $request)
     {
         try {
-
-
-
             if ($request->has('game') && $request->has('msisdn') && $request->has('stake') && $request->has('outcome')
             ) {
 
                 //Check if balance is enough for game
-                $balance = Transaction::where('msisdn', $request->msisdn)->sum('amount');
+                $balance = Transaction::where('msisdn', $request->msisdn)
+                ->where('status', '=', 'SUCCESS')->sum('amount');
                 if($balance < $request->stake){
                     return response()->json([
                         'status'=>'error',
@@ -51,8 +49,8 @@ class GamesController extends Controller
                 }
 
                 //Request payment information
-
-                if (true) {
+                $txnResponse = TransactionsController::debitStakeFromAccount($request->msisdn, $request->stake);
+                if ($txnResponse == 'OK') {
                     //Check in groups if there is a entry where participants is
                     //less than 5 and outcome = give outcome and stake = given stake
                     $group = Group::from('groups AS g')
@@ -98,7 +96,8 @@ class GamesController extends Controller
                 } else {
                     return response()->json([
                         'status' => 'error',
-                        'message' => 'Payment count not be completed. Please try again later!'
+                        'message' => 'Payment count not be completed. Please try again later!',
+                        "error"=> $txnResponse
                     ], 200);
                 }
             }else{
